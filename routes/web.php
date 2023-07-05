@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RepoController;
+use App\Http\Controllers\DataController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,5 +38,10 @@ Route::any('forget',[HomeController::class,'forget']);
 Route::get('userget',[RepoController::class,'userget']);
 Route::get('delete/{id}',[RepoController::class,'delete']);
 Route::get('update/{id}',[RepoController::class,'update']);
+
+
+Route::view('/insert-data', 'insert-data');
+Route::post('/insert-data', [DataController::class,'insertData'])->name('insert.data');
+
 
 require __DIR__.'/auth.php';
