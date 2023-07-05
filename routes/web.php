@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RepoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +19,23 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::any('get-session',[HomeController::class,'get']);
+Route::any('set-session',[HomeController::class,'set']);
+Route::any('forget',[HomeController::class,'forget']);
+
+Route::get('userget',[RepoController::class,'userget']);
+Route::get('delete/{id}',[RepoController::class,'delete']);
+Route::get('update/{id}',[RepoController::class,'update']);
+
+require __DIR__.'/auth.php';
